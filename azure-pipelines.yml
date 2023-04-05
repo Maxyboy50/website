@@ -50,12 +50,9 @@ stages:
                 - checkout: self
                   
                 - bash: |
-                    ls             \
-                    ls $(Pipeline.Workspace)/ \
-                    ls '$(System.DefaultWorkingDirectory)'
-                  #   terraform init \
-                  #   terraform apply $(Pipeline.Workspace)/plan.json
-                  # workingDirectory: '$(System.DefaultWorkingDirectory)/website/iac'
+                    terraform init \
+                    terraform apply $(Pipeline.Workspace)/plan/plan.json
+                  workingDirectory: '$(System.DefaultWorkingDirectory)/iac'
                   env:
                     AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY)
                     AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_KEY)
