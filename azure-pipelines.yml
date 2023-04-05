@@ -22,8 +22,31 @@ stages:
               AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY)
               AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_KEY)
           - bash: |
-              terraform plan
+              terraform plan -out=plan.json
             workingDirectory: 'iac'
             env:
               AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY)
               AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_KEY)
+          - task: publishPipelineArtifact@0
+            inputs:
+              artifactName: plan
+              targetPath: 'iac/plan.json'
+  - stage: TerraformApply
+    jobs:
+      - deployment: Apply
+        dependsOn: 'TerraformInitPlan'
+        environment: Test
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: current
+                  artifact: plan
+                  
+                - bash: |
+                    terraform init \
+                    terraform apply plan.json
+                  workingDirectory: 'iac'
+                  env:
+                    AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY)
+                    AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_KEY)
