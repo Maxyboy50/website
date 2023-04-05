@@ -13,12 +13,11 @@ stages:
   - stage: 'TerraformInitPlan'
     jobs:
       - job: 'TerraformInit'
+        
         steps:
           - bash: |
               terraform init
             workingDirectory: 'iac'
-      - job: 'TerraformPlan'
-        steps:
           - bash: |
               terraform plan
             workingDirectory: 'iac'
