@@ -47,13 +47,12 @@ stages:
               steps:
                 - download: current
                   artifact: plan
-                - checkout: TerraformCode
                 - checkout: self
                   
                 - bash: |
                     terraform init \
-                    terraform apply plan.json
-                  workingDirectory: 'iac'
+                    terraform apply $(Pipeline.Workspace)/plan.json
+                  workingDirectory: '$(System.DefaultWorkingDirectory)/website/iac'
                   env:
                     AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY)
                     AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_KEY)
