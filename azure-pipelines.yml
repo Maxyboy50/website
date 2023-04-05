@@ -6,6 +6,12 @@
 trigger:
 - master
 
+resources:
+  repositories:
+  - repository: TerraformCode
+    type: github
+    name: Maxyboy50/website
+    endpoint: Maxyboy50
 pool:
   vmImage: ubuntu-latest
 
@@ -41,6 +47,8 @@ stages:
               steps:
                 - download: current
                   artifact: plan
+                - checkout: TerraformCode
+                - checkout: self
                   
                 - bash: |
                     terraform init \
