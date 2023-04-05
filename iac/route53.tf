@@ -32,5 +32,5 @@ resource "aws_route53_record" "certificate" {
 }
 
 output "acm_dvo" {
-    value = aws_acm_certificate.this.domain_validation_options
+  value = aws_acm_certificate.this.domain_validation_options
 }

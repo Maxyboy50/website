@@ -4,13 +4,13 @@ resource "aws_cloudfront_distribution" "this" {
     origin_id                = "websiteOrigin"
     origin_access_control_id = aws_cloudfront_origin_access_control.this.id
   }
-  aliases = ["quicklinks.max-weitz.com"]
+  aliases             = ["quicklinks.max-weitz.com"]
   enabled             = true
   price_class         = "PriceClass_100"
   default_root_object = "index.html"
   viewer_certificate {
     acm_certificate_arn = aws_acm_certificate.this.arn
-    ssl_support_method = "vip"
+    ssl_support_method  = "vip"
   }
   restrictions {
     geo_restriction {
