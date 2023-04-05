@@ -16,13 +16,11 @@ stages:
         
         steps:
           - bash: |
-              terraform init \
-              -backend-config='access-key=$(ACCESS_KEY)' \
-              -backend-config='secret=$(SECRET_KEY)'
+              terraform init
             workingDirectory: 'iac'
             env:
-              ACCESS_KEY: $(AWS_ACCESS_KEY)
-              SECRET_KEY: $(AWS_SECRET_KEY)
+              AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY)
+              AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_KEY)
           - bash: |
               terraform plan
             workingDirectory: 'iac'
