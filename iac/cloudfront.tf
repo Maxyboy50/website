@@ -2,13 +2,15 @@ resource "aws_cloudfront_distribution" "this" {
   origin {
     domain_name              = aws_s3_bucket.this.bucket_regional_domain_name
     origin_id                = "s3testorigin"
-    origin_access_control_id = aws_cloudfront_origin_access_identity.this.id
+    origin_access_control_id = aws_cloudfront_origin_access_control.this.id
   }
+  aliases = ["quicklinks.max-weitz.com"]
   enabled             = true
   price_class         = "PriceClass_100"
   default_root_object = "index.html"
   viewer_certificate {
-    cloudfront_default_certificate = true
+    acm_certificate_arn = aws_acm_certificate.this.arn
+    ssl_support_method = "vip"
   }
   restrictions {
     geo_restriction {
@@ -25,8 +27,12 @@ resource "aws_cloudfront_distribution" "this" {
   }
 }
 
-resource "aws_cloudfront_origin_access_identity" "this" {
-  comment = "Some comment"
+resource "aws_cloudfront_origin_access_control" "this" {
+  name                              = "example"
+  description                       = "Example Policy"
+  origin_access_control_origin_type = "s3"
+  signing_behavior                  = "always"
+  signing_protocol                  = "sigv4"
 }
 output "distribution_name" {
   value = aws_cloudfront_distribution.this.domain_name

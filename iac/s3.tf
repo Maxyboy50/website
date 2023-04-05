@@ -19,20 +19,25 @@ resource "aws_s3_bucket_versioning" "this" {
   }
 }
 
-
-data "aws_iam_policy_document" "s3_policy" {
-  statement {
-    actions   = ["s3:GetObject"]
-    resources = ["${aws_s3_bucket.this.arn}/*"]
-
-    principals {
-      type        = "AWS"
-      identifiers = [aws_cloudfront_origin_access_identity.this.iam_arn]
-    }
-  }
-}
-
-resource "aws_s3_bucket_policy" "example" {
+resource "aws_s3_bucket_policy" "this" {
   bucket = aws_s3_bucket.this.id
-  policy = data.aws_iam_policy_document.s3_policy.json
+  policy = <<EOF
+  {
+    "Version": "2012-10-17",
+    "Statement": {
+        "Sid": "AllowCloudFrontServicePrincipalReadOnly",
+        "Effect": "Allow",
+        "Principal": {
+            "Service": "cloudfront.amazonaws.com"
+        },
+        "Action": "s3:GetObject",
+        "Resource": "${aws_s3_bucket.this.arn}/*",
+        "Condition": {
+            "StringEquals": {
+                "AWS:SourceArn": "${aws_cloudfront_distribution.this.arn}"
+            }
+        }
+    }
+}    
+  EOF
 }
