@@ -34,7 +34,6 @@ stages:
   - stage: TerraformApply
     jobs:
       - deployment: Apply
-        dependsOn: 'TerraformInitPlan'
         environment: Test
         strategy:
           runOnce:
