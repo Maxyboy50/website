@@ -75,7 +75,8 @@ stages:
         steps:
           - task: S3Upload@1
             inputs:
+              awsCredentials: 'AWS Tasks'
               regionName: 'us-east-1'
-              bucketName: 
+              bucketName: 'website-bucket-max-weitz'
               globExpressions: '**'
             displayName: Upload Files to S3
