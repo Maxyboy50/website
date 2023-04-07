@@ -68,7 +68,7 @@ stages:
                   env:
                     AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY)
                     AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_KEY)
-  - stage: Upload S3 Content
+  - stage: S3Upload
     jobs:
       - job: S3
         steps:
