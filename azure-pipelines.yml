@@ -39,7 +39,10 @@ stages:
               targetPath: 'iac/plan.json'
       - job: 'WebsiteContent'
         steps:
-        - task: PublishPipelineArtifact@0
+          - task: PublishPipelineArtifact@0
+            inputs:
+              artifactName: 'files'
+              targetPath: '/files/'
   - stage: TerraformApply
     jobs:
       - deployment: Apply
@@ -69,10 +72,13 @@ stages:
     jobs:
       - job: S3
         steps:
+          - download: current
+            artifact: files
           - task: S3Upload@1
             inputs:
               awsCredentials: 'AWS Tasks'
               regionName: 'us-east-1'
               bucketName: 'website-bucket-max-weitz'
+              sourceFolder: 'files/'
               globExpressions: '**'
             displayName: Upload Files to S3
