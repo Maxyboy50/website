@@ -72,3 +72,10 @@ stages:
   - stage: Upload S3 Content
     jobs:
       - job: S3
+        steps:
+          - task: S3Upload@1
+            inputs:
+              regionName: 'us-east-1'
+              bucketName: 
+              globExpressions: '**'
+            displayName: Upload Files to S3
