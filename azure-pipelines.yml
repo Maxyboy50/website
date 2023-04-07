@@ -42,7 +42,7 @@ stages:
           - task: PublishPipelineArtifact@0
             inputs:
               artifactName: 'files'
-              targetPath: '/files/'
+              targetPath: 'files/'
   - stage: TerraformApply
     jobs:
       - deployment: Apply
