@@ -1,5 +1,6 @@
 resource "aws_acm_certificate" "this" {
-  domain_name       = "quicklinks.max-weitz.com"
+  domain_name               = "quicklinks.max-weitz.com"
+  subject_alternative_names = ["www.quicklinks.max-weitz.com"]
   validation_method = "DNS"
   lifecycle {
     create_before_destroy = true

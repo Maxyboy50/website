@@ -4,13 +4,14 @@ resource "aws_cloudfront_distribution" "this" {
     origin_id                = "websiteOrigin"
     origin_access_control_id = aws_cloudfront_origin_access_control.this.id
   }
-  aliases             = ["quicklinks.max-weitz.com"]
+  aliases             = ["www.quicklinks.max-weitz.com","quicklinks.max-weitz.com"]
   enabled             = true
   price_class         = "PriceClass_100"
   default_root_object = "index.html"
   viewer_certificate {
     acm_certificate_arn = aws_acm_certificate.this.arn
-    ssl_support_method  = "vip"
+    ssl_support_method  = "sni-only"
+    minimum_protocol_version = "TLSv1.2_2021"
   }
   restrictions {
     geo_restriction {
@@ -21,8 +22,9 @@ resource "aws_cloudfront_distribution" "this" {
     allowed_methods        = ["GET", "HEAD"]
     cached_methods         = ["GET", "HEAD"]
     target_origin_id       = "websiteOrigin"
-    viewer_protocol_policy = "allow-all"
+    viewer_protocol_policy = "redirect-to-https"
     cache_policy_id        = "658327ea-f89d-4fab-a63d-7e88639e58f6"
+
 
   }
 }
