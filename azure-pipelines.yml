@@ -27,22 +27,26 @@ stages:
             env:
               AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY)
               AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_KEY)
+            displayName: Terraform Init
           - bash: |
               terraform plan -out=plan.json
             workingDirectory: 'iac'
             env:
               AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY)
               AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_KEY)
+            displayName: Terraform Plan
           - task: publishPipelineArtifact@0
             inputs:
               artifactName: plan
               targetPath: 'iac/plan.json'
+            displayName: 
       - job: 'WebsiteContent'
         steps:
           - task: PublishPipelineArtifact@0
             inputs:
               artifactName: 'files'
               targetPath: 'files/'
+            displayName: Publish Website files artifact
   - stage: TerraformApply
     jobs:
       - deployment: Apply
@@ -61,6 +65,7 @@ stages:
                   env:
                     AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY)
                     AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_KEY)
+                  displayName: Terraform Init
 
                 - bash: |
                     terraform apply $(Pipeline.Workspace)/plan/plan.json
@@ -68,6 +73,7 @@ stages:
                   env:
                     AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY)
                     AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_KEY)
+                  displayName: Terraform Apply
   - stage: S3Upload
     jobs:
       - job: S3
