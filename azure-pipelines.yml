@@ -37,6 +37,9 @@ stages:
             inputs:
               artifactName: plan
               targetPath: 'iac/plan.json'
+      - job: 'WebsiteContent'
+        steps:
+        - task: PublishPipelineArtifact@0
   - stage: TerraformApply
     jobs:
       - deployment: Apply
