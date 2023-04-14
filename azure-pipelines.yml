@@ -34,14 +34,14 @@ stages:
             inputs:
               artifactName: plan
               targetPath: 'iac/plan.json'
-            displayName: 
+            displayName: Publish terraform plan artifact
       - job: 'WebsiteContent'
         steps:
           - task: PublishPipelineArtifact@0
             inputs:
               artifactName: 'files'
               targetPath: 'files/'
-            displayName: Publish Website files artifact
+            displayName: Publish website files artifact
   - stage: TerraformApply
     jobs:
       - deployment: Apply
@@ -82,4 +82,4 @@ stages:
               bucketName: 'website-bucket-max-weitz'
               sourceFolder: 'files/'
               globExpressions: '**'
-            displayName: Upload Files to S3
+            displayName: Upload website files to S3
