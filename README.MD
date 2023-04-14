@@ -16,4 +16,3 @@ Resources that will be created:
     - Will allow CloudFront Distribution to serve content over HTTPs
     - Will include subdomain of CloudFront distribution
     - Will be created in us-east-1
-    - 
