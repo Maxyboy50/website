@@ -69,8 +69,6 @@ stages:
                     AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY)
                     AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_KEY)
                   displayName: Terraform Apply
-  - stage: S3Upload
-    jobs:
       - job: S3
         steps:
           - download: current
@@ -83,3 +81,4 @@ stages:
               sourceFolder: 'files/'
               globExpressions: '**'
             displayName: Upload website files to S3
+        dependsOn: Apply
