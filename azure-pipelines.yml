@@ -24,6 +24,9 @@ stages:
               AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_KEY)
             displayName: Terraform Init
           - bash: |
+              terraform validate
+            displayName: Ensure Terraform Code is valid before producing plan
+          - bash: |
               terraform plan -out=plan.json
             workingDirectory: 'iac'
             env:
